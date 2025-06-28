@@ -20,7 +20,7 @@
       <guid>https://d1bf7ud8flzvbb.cloudfront.net/audio/episode1.mp3</guid>
       <dc:date>2025-06-26T00:00:00+09:00</dc:date>
     </item>
-    <itunes:image href="https://d1bf7ud8flzvbb.cloudfront.net/audio/cover.jpg"/>
+    <itunes:image href="https://d1bf7ud8flzvbb.cloudfront.net/photo/cover.png"/>
     <itunes:author>ys7i</itunes:author>
   </channel>
 </rss>
