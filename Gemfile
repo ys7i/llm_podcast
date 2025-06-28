@@ -7,3 +7,7 @@ source "https://rubygems.org"
 gem "rss", "~> 0.3.1"
 
 gem "dotenv", "~> 3.1"
+
+group :development do
+  gem 'rubocop', require: false
+end

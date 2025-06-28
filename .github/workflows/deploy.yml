@@ -17,10 +17,12 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2"
+          bundler-cache: false
 
       - name: Install dependencies
         run: |
-          gem install rss dotenv
+          bundle config set --local deployment false
+          bundle install
 
       - name: Generate RSS
         env:

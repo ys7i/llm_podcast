@@ -10,7 +10,27 @@ AI で作った音声コンテンツを保存するプライベートポッド�
 
 ## セットアップ手順
 
-### 1. S3 バケットと CloudFront の設定
+### 1. 依存関係のインストール
+
+```bash
+# Rubyの依存関係をインストール
+bundle install
+```
+
+### 2. 環境変数の設定
+
+`.env`ファイルを作成して以下の内容を設定してください：
+
+```bash
+# CloudFront設定
+CLOUDFRONT_DOMAIN=your-cloudfront-domain.cloudfront.net
+S3_BUCKET_NAME=your-podcast-bucket
+
+# GitHub Pages設定
+GITHUB_PAGES_URL=https://ys7i.github.io/llm_podcast/
+```
+
+### 3. S3 バケットと CloudFront の設定
 
 1. **S3 バケットを作成**
 
@@ -26,16 +46,7 @@ AI で作った音声コンテンツを保存するプライベートポッド�
    - S3 バケットをオリジンとして設定
    - カスタムドメインを設定（オプション）
 
-### 2. 設定ファイルの更新
-
-`script/export_rss.rb`の以下の値を実際の値に変更してください：
-
-```ruby
-CLOUDFRONT_DOMAIN = "your-cloudfront-domain.cloudfront.net"  # 実際のCloudFrontドメイン
-S3_BUCKET_NAME = "your-podcast-bucket"  # 実際のS3バケット名
-```
-
-### 3. GitHub Pages の設定
+### 4. GitHub Pages の設定
 
 1. GitHub リポジトリの設定ページに移動
 2. **Pages**セクションで以下を設定：
@@ -43,7 +54,15 @@ S3_BUCKET_NAME = "your-podcast-bucket"  # 実際のS3バケット名
    - **Branch**: main
    - **Folder**: /docs
 
-### 4. デプロイ
+### 5. GitHub Secrets の設定
+
+GitHub リポジトリの **Settings** → **Secrets and variables** → **Actions** で以下のシークレットを設定：
+
+- `CLOUDFRONT_DOMAIN`: CloudFront ドメイン
+- `S3_BUCKET_NAME`: S3 バケット名
+- `GITHUB_PAGES_URL`: GitHub Pages URL
+
+### 6. デプロイ
 
 ```bash
 # RSSを生成してデプロイ
@@ -66,6 +85,8 @@ llm_podcast/
 │   └── export_rss.rb
 ├── .github/workflows/     # GitHub Actions
 │   └── deploy.yml
+├── .env                   # 環境変数ファイル
+├── Gemfile                # Ruby依存関係
 └── README.md
 ```
 
@@ -86,3 +107,4 @@ llm_podcast/
 - 音声ファイルは S3 に保存し、CloudFront 経由で配信されます
 - GitHub Pages は静的ファイルのみ配信可能です
 - 大きな音声ファイルは GitHub にコミットしないでください
+- `.env`ファイルは Git にコミットしないでください（`.gitignore`に追加）
