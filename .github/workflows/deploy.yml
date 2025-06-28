@@ -1,0 +1,37 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+
+      - name: Install dependencies
+        run: |
+          gem install rss dotenv
+
+      - name: Generate RSS
+        env:
+          CLOUDFRONT_DOMAIN: ${{ secrets.CLOUDFRONT_DOMAIN }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+          GITHUB_PAGES_URL: ${{ secrets.GITHUB_PAGES_URL }}
+        run: |
+          ruby script/export_rss.rb
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
