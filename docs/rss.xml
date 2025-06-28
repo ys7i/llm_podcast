@@ -11,16 +11,16 @@
     <language>ja</language>
     <item>
       <title>エピソード1</title>
-      <link>https://https://d1bf7ud8flzvbb.cloudfront.net/audio/episode1.mp3</link>
+      <link>https://d1bf7ud8flzvbb.cloudfront.net/audio/episode1.mp3</link>
       <description>エピソード1の説明</description>
-      <enclosure url="https://https://d1bf7ud8flzvbb.cloudfront.net/audio/episode1.mp3"
+      <enclosure url="https://d1bf7ud8flzvbb.cloudfront.net/audio/episode1.mp3"
         length="118398764"
         type="audio/mpeg"/>
       <pubDate>Thu, 26 Jun 2025 00:00:00 +0900</pubDate>
-      <guid>https://https://d1bf7ud8flzvbb.cloudfront.net/audio/episode1.mp3</guid>
+      <guid>https://d1bf7ud8flzvbb.cloudfront.net/audio/episode1.mp3</guid>
       <dc:date>2025-06-26T00:00:00+09:00</dc:date>
     </item>
-    <itunes:image href="https://https://d1bf7ud8flzvbb.cloudfront.net/audio/cover.jpg"/>
+    <itunes:image href="https://d1bf7ud8flzvbb.cloudfront.net/audio/cover.jpg"/>
     <itunes:author>ys7i</itunes:author>
   </channel>
 </rss>
