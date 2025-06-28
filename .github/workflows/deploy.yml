@@ -13,25 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.2"
-          bundler-cache: false
-
-      - name: Install dependencies
-        run: |
-          bundle config set --local deployment false
-          bundle install
-
-      - name: Generate RSS
-        env:
-          CLOUDFRONT_DOMAIN: ${{ secrets.CLOUDFRONT_DOMAIN }}
-          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-          GITHUB_PAGES_URL: ${{ secrets.GITHUB_PAGES_URL }}
-        run: |
-          ruby script/export_rss.rb
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
