@@ -1,0 +1,46 @@
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+test_transcript:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+test_audio_file:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+test_cover_image:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+
+cover_image:
+  service: S3
+  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+  region: ap-northeast-3
+  bucket: llm-podcast
+  upload:
+    prefix: photo
+
+audio_file:
+  service: S3
+  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+  region: ap-northeast-3
+  bucket: llm-podcast
+  upload:
+    prefix: audio
+
+transcript:
+  service: S3
+  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+  region: ap-northeast-3
+  bucket: llm-podcast
+  upload:
+    prefix: transcript
