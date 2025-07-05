@@ -32,3 +32,4 @@
 /config/master.key
 audio/*
 service-account-key.json
+.env

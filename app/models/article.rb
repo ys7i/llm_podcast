@@ -1,7 +1,6 @@
 class Article < ApplicationRecord
   belongs_to :podcast, optional: true
 
-  enum :script_status, { waiting: 0, done: 1 }, default: :waiting
 
   validates :url, presence: true, format: { with: URI.regexp(%w[http https]) }
 
@@ -17,11 +16,22 @@ class Article < ApplicationRecord
     nil
   end
 
-  def mark_script_done!
-    update!(script_status: :done)
+  def processing_status
+    return :pending if podcast.nil?
+    return :transcript_ready if podcast.transcript_file.attached? && !podcast.audio_file.attached?
+    return :audio_ready if podcast.audio_file.attached?
+    :pending
   end
 
-  def script_completed?
-    done?
+  def pending?
+    processing_status == :pending
+  end
+
+  def transcript_ready?
+    processing_status == :transcript_ready
+  end
+
+  def audio_ready?
+    processing_status == :audio_ready
   end
 end

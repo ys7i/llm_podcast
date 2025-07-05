@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ArticleAudioSynthesisJob, type: :job do
   let(:article) { create(:article) }
+  let(:podcast) { create(:podcast) }
   let(:mock_converter) { instance_double(TextToSpeechConverter) }
   let(:mock_audio_data) { "fake_audio_data" }
 
@@ -16,23 +17,25 @@ RSpec.describe ArticleAudioSynthesisJob, type: :job do
         article.update!(podcast_id: nil)
       end
 
-      it 'creates a podcast for the article' do
-        expect { described_class.perform_now(article.id) }
-          .to change(Podcast, :count).by(1)
+      it 'does not process the article' do
+        expect(Rails.logger).not_to receive(:info)
+          .with("Starting audio synthesis for article #{article.id}")
 
-        article.reload
-        expect(article.podcast).to be_present
-        expect(article.podcast.title).to eq("Podcast from #{article.domain}")
+        described_class.perform_now(article.id)
+      end
+    end
+
+    context 'when article has a podcast_id' do
+      before do
+        article.update!(podcast: podcast)
+        # Mock transcript file attachment
+        allow(podcast).to receive(:transcript_file).and_return(double(attached?: true, download: "A: Hello\nB: World"))
       end
 
-      it 'creates transcript and audio files' do
+      it 'synthesizes audio for the article' do
+        expect(mock_converter).to receive(:convert_file).with(anything)
+        
         described_class.perform_now(article.id)
-
-        article.reload
-        podcast = article.podcast
-
-        expect(podcast.transcript_file).to be_attached
-        expect(podcast.audio_file).to be_attached
       end
 
       it 'marks the article as script done' do
@@ -43,22 +46,15 @@ RSpec.describe ArticleAudioSynthesisJob, type: :job do
       end
     end
 
-    context 'when article already has a podcast_id' do
-      let(:existing_podcast) { create(:podcast) }
-
+    context 'when article has a podcast but no transcript file' do
       before do
-        article.update!(podcast: existing_podcast)
+        article.update!(podcast: podcast)
+        allow(podcast).to receive(:transcript_file).and_return(double(attached?: false))
       end
 
-      it 'does not create a new podcast' do
-        expect { described_class.perform_now(article.id) }
-          .not_to change(Podcast, :count)
-      end
-
-      it 'does not process the article' do
-        expect(Rails.logger).not_to receive(:info)
-          .with("Starting audio synthesis for article #{article.id}")
-
+      it 'does not synthesize audio' do
+        expect(mock_converter).not_to receive(:convert_file)
+        
         described_class.perform_now(article.id)
       end
     end
