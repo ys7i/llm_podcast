@@ -2,6 +2,8 @@ require 'bundler/setup'
 Bundler.require
 require 'rss'
 require 'fileutils'
+require 'dotenv'
+Dotenv.load
 
 namespace :podcast do
   desc 'RSSフィードとHTMLファイルを生成'
@@ -28,7 +30,7 @@ namespace :podcast do
         item.link = "#{s3_audio_url}/#{podcast.audio_file.key}"
         item.guid.content = "#{s3_audio_url}/#{podcast.audio_file.key}"
         item.description = podcast.description
-        item.pubDate = podcast.publish_date || podcast.created_at
+        item.pubDate = (podcast.publish_date || podcast.created_at).rfc2822
         item.enclosure.url = "#{s3_audio_url}/#{podcast.audio_file.key}"
         item.enclosure.length = podcast.audio_file.byte_size
         item.enclosure.type = 'audio/mpeg'
