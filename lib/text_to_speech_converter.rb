@@ -2,7 +2,7 @@ class TextToSpeechConverter
   VOICES = %w[en-US-Standard-F en-US-Standard-A].freeze
 
   def initialize
-    @client = Google::Cloud::TextToSpeech::V1::TextToSpeech::Client.new
+    @client = Google::Cloud::TextToSpeech.text_to_speech
     @logger = Rails.logger
     @options = {
       language: "en-US",
@@ -13,16 +13,11 @@ class TextToSpeechConverter
     }
   end
 
-  def convert_file(input_file)
-    text = read_file_text(input_file)
+  def convert_to_audio(text)
     script = parse_file(text)
 
     begin
-      audio = create_audio(script)
-      output_file = "audio/sample.mp3"
-      File.open(output_file, "wb") { |file| file.write(audio) }
-      @logger.info "Finish text to speech."
-      audio
+      create_audio(script)
     rescue Google::Cloud::Error => e
       @logger.error "Error: #{e.message}"
       raise e
@@ -68,12 +63,12 @@ class TextToSpeechConverter
   end
 
   def parse_file(text)
-    text.split("\n").map do |line|
-      raise "Text format is unexpected! '#{text}'" unless line.match?(/^[A-Z]:\s+/)
+    text.split(/\n/).map do |line|
+      next unless line.match?(/^[a-zA-Z]+:/)
 
       speaker, text = line.split(":", 2)
       { speaker: speaker.strip, text: text.strip }
-    end
+    end.select { |turn| !turn.nil? }
   end
 
   def speaker_voice_map(script)

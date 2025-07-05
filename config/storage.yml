@@ -18,6 +18,21 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
+# Development/Test環境: ローカルディスク
+<% if Rails.env.development? || Rails.env.test? %>
+cover_image:
+  service: Disk
+  root: <%= Rails.root.join("storage/cover_images") %>
+
+audio_file:
+  service: Disk
+  root: <%= Rails.root.join("storage/audio_files") %>
+
+transcript:
+  service: Disk
+  root: <%= Rails.root.join("storage/transcripts") %>
+<% else %>
+# Production環境: S3
 cover_image:
   service: S3
   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
@@ -44,3 +59,4 @@ transcript:
   bucket: llm-podcast
   upload:
     prefix: transcript
+<% end %>
