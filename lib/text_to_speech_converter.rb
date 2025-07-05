@@ -14,7 +14,7 @@ class TextToSpeechConverter
   end
 
   def convert_to_audio(text)
-    script = parse_file(text)
+    script = parse_file(text.force_encoding("UTF-8"))
 
     begin
       create_audio(script)

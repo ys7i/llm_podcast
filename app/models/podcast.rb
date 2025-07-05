@@ -3,6 +3,8 @@ class Podcast < ApplicationRecord
   has_one_attached :audio_file, service: :audio_file
   has_one_attached :transcript_file, service: :transcript
 
+  has_one :article
+
   before_validation :set_ep_count, on: :create
 
   private

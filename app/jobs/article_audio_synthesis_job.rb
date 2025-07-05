@@ -1,18 +1,17 @@
 class ArticleAudioSynthesisJob < ApplicationJob
   queue_as :default
+  retry_on StandardError, wait: 5.seconds, attempts: 3
 
   def perform(article_id)
     article = Article.find(article_id)
+    podcast = article.podcast
 
-    # podcast_idを持つarticleのみ処理
-    return unless article.podcast_id.present?
+    return if podcast.nil?
+    return if podcast.audio_file.attached?
 
     Rails.logger.info "Starting audio synthesis for article #{article.id}"
 
     begin
-      podcast = article.podcast
-
-      # 音声合成の実行
       synthesize_audio(podcast, article)
 
       Rails.logger.info "Completed audio synthesis for article #{article.id}"
@@ -28,11 +27,10 @@ class ArticleAudioSynthesisJob < ApplicationJob
     return unless podcast.transcript_file.attached?
 
     # transcript fileを一時ファイルにダウンロード
-    temp_file = Tempfile.new([ "transcript_#{article.id}", ".txt" ])
+    text = podcast.transcript_file.download
     begin
-      text = podcast.transcript_file.download
       converter = TextToSpeechConverter.new
-      audio_data = converter.convert_text(text)
+      audio_data = converter.convert_to_audio(text)
 
       # 音声ファイルをアップロード
       audio_blob = ActiveStorage::Blob.create_and_upload!(

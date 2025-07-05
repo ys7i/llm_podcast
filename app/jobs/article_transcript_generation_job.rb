@@ -11,8 +11,9 @@ class ArticleTranscriptGenerationJob < ApplicationJob
     ActiveRecord::Base.transaction do
       podcast = create_podcast_for_article(article)
 
-      # transcript fileの作成
-      create_transcript_file(podcast, article)
+      unless podcast.transcript_file.attached?
+        create_transcript_file(podcast, article)
+      end
 
       # 次のjobをキューに追加
       ArticleAudioSynthesisJob.perform_later(article.id)
@@ -27,6 +28,7 @@ class ArticleTranscriptGenerationJob < ApplicationJob
   private
 
   def create_podcast_for_article(article)
+    return podcast if article.podcast
     podcast = Podcast.create!(
       title: "Podcast from #{article.domain}",
       description: "Generated podcast content from #{article.url}"
@@ -44,14 +46,12 @@ class ArticleTranscriptGenerationJob < ApplicationJob
     transcript_content = generate_transcript_content(article)
 
     # transcript fileをアップロード
-    transcript_blob = ActiveStorage::Blob.create_and_upload!(
+    podcast.transcript_file.attach(
       io: StringIO.new(transcript_content),
       filename: "transcript_#{article.id}.txt",
-      content_type: "text/plain",
-      service_name: transcript_service_name
+      content_type: "text/plain"
     )
 
-    podcast.transcript_file.attach(transcript_blob)
     Rails.logger.info "Created transcript file for podcast #{podcast.id}"
   end
 

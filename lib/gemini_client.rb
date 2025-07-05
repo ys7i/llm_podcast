@@ -1,7 +1,6 @@
 require "googleauth"
 require "faraday"
 require "json"
-require "unidecode"
 
 class GeminiClient
   def initialize
