@@ -53,7 +53,7 @@ group :development, :test do
   gem "factory_bot_rails"
 end
 
-gem "aws-sdk-s3", "~> 1.191"
+gem "aws-sdk-s3", "~> 1.192"
 gem "googleauth", "~> 1.11"
 gem "faraday", "~> 2.9"
 gem "google-cloud-text_to_speech", "~> 1.6"
