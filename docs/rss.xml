@@ -5,22 +5,11 @@
   xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
   xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
   <channel>
-    <title>ys7i private podcast</title>
+    <title>LLM Podcast</title>
     <link>https://ys7i.github.io/llm_podcast/</link>
-    <description>AIで作った音声コンテンツを保存</description>
-    <language>ja</language>
-    <item>
-      <title>エピソード1</title>
-      <link>https://d1bf7ud8flzvbb.cloudfront.net/audio/episode1.mp3</link>
-      <description>エピソード1の説明</description>
-      <enclosure url="https://d1bf7ud8flzvbb.cloudfront.net/audio/episode1.mp3"
-        length="118398764"
-        type="audio/mpeg"/>
-      <pubDate>Thu, 26 Jun 2025 00:00:00 +0900</pubDate>
-      <guid>https://d1bf7ud8flzvbb.cloudfront.net/audio/episode1.mp3</guid>
-      <dc:date>2025-06-26T00:00:00+09:00</dc:date>
-    </item>
-    <itunes:image href="https://d1bf7ud8flzvbb.cloudfront.net/photo/cover.png"/>
+    <description>AI generated podcast</description>
+    <language>en</language>
+    <itunes:image href="https://llm-podcast.s3.ap-northeast-3.amazonaws.com/photo/cover.png"/>
     <itunes:author>ys7i</itunes:author>
   </channel>
 </rss>
