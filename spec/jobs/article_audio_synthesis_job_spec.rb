@@ -34,7 +34,7 @@ RSpec.describe ArticleAudioSynthesisJob, type: :job do
 
       it 'synthesizes audio for the article' do
         expect(mock_converter).to receive(:convert_file).with(anything)
-        
+
         described_class.perform_now(article.id)
       end
 
@@ -54,7 +54,7 @@ RSpec.describe ArticleAudioSynthesisJob, type: :job do
 
       it 'does not synthesize audio' do
         expect(mock_converter).not_to receive(:convert_file)
-        
+
         described_class.perform_now(article.id)
       end
     end

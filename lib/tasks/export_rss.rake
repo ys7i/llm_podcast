@@ -1,24 +1,24 @@
-require 'bundler/setup'
+require "bundler/setup"
 Bundler.require
-require 'rss'
-require 'fileutils'
-require 'dotenv'
+require "rss"
+require "fileutils"
+require "dotenv"
 Dotenv.load
 
 namespace :podcast do
-  desc 'RSSフィードとHTMLファイルを生成'
+  desc "RSSフィードとHTMLファイルを生成"
   task export_rss: :environment do
-    s3_audio_url = ENV['S3_AUDIO_URL']
-    s3_cover_url = ENV['S3_COVER_URL']
-    github_pages_url = ENV['GITHUB_PAGES_URL']
+    s3_audio_url = ENV["S3_AUDIO_URL"]
+    s3_cover_url = ENV["S3_COVER_URL"]
+    github_pages_url = ENV["GITHUB_PAGES_URL"]
 
     # RSSフィードを生成
-    rss = RSS::Maker.make('2.0') do |maker|
-      maker.channel.title = 'LLM Podcast'
+    rss = RSS::Maker.make("2.0") do |maker|
+      maker.channel.title = "LLM Podcast"
       maker.channel.link = github_pages_url
-      maker.channel.description = 'AI generated podcast'
-      maker.channel.language = 'en'
-      maker.channel.itunes_author = 'ys7i'
+      maker.channel.description = "AI generated podcast"
+      maker.channel.language = "en"
+      maker.channel.itunes_author = "ys7i"
       maker.channel.itunes_image = s3_cover_url
 
       Podcast.where(publish_date: nil).update_all(publish_date: Time.current)
@@ -33,7 +33,7 @@ namespace :podcast do
         item.pubDate = (podcast.publish_date || podcast.created_at).rfc2822
         item.enclosure.url = "#{s3_audio_url}/#{podcast.audio_file.key}"
         item.enclosure.length = podcast.audio_file.byte_size
-        item.enclosure.type = 'audio/mpeg'
+        item.enclosure.type = "audio/mpeg"
       end
     end
 
@@ -138,14 +138,14 @@ namespace :podcast do
     HTML
 
     # docsディレクトリが存在しない場合は作成
-    FileUtils.mkdir_p('docs')
+    FileUtils.mkdir_p("docs")
 
     # GitHub Pages用のdocsディレクトリに書き出し
-    File.open('docs/rss.xml', 'w') { |f| f.write(rss) }
-    File.open('docs/index.html', 'w') { |f| f.write(html_template) }
+    File.open("docs/rss.xml", "w") { |f| f.write(rss) }
+    File.open("docs/index.html", "w") { |f| f.write(html_template) }
 
-    puts 'RSSフィードとHTMLファイルを生成しました:'
-    puts '- docs/rss.xml'
-    puts '- docs/index.html'
+    puts "RSSフィードとHTMLファイルを生成しました:"
+    puts "- docs/rss.xml"
+    puts "- docs/index.html"
   end
-end 
+end

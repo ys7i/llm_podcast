@@ -29,7 +29,7 @@ RSpec.describe ArticleTranscriptGenerationJob, type: :job do
 
       it 'enqueues audio synthesis job' do
         expect(ArticleAudioSynthesisJob).to receive(:perform_later).with(article.id)
-        
+
         described_class.perform_now(article.id)
       end
     end
