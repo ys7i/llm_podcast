@@ -130,7 +130,7 @@ namespace :podcast do
               end.compact.join("\n")}
 
               <footer style="text-align: center; margin-top: 40px; color: #6a737d; border-top: 1px solid #e1e5e9; padding-top: 20px;">
-                  <p>🚀 Powered by GitHub Pages + CloudFront</p>
+                  <p>🚀 Powered by GitHub Pages</p>
               </footer>
           </div>
       </body>
@@ -147,6 +147,5 @@ namespace :podcast do
     puts 'RSSフィードとHTMLファイルを生成しました:'
     puts '- docs/rss.xml'
     puts '- docs/index.html'
-    puts "CloudFrontドメイン: #{s3_audio_url}"
   end
 end 

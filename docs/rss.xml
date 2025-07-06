@@ -11,14 +11,14 @@
     <language>en</language>
     <item>
       <title>Podcast from en.wikipedia.org</title>
-      <link>https://llm-podcast-audio.s3.ap-northeast-3.amazonaws.com/7bwsmvty60v424wfuyfn6bg12te0</link>
+      <link>https://llm-podcast-audio.s3.ap-northeast-3.amazonaws.com/muuw9e9wl0lkul9x6de6sx8qlije.mp3</link>
       <description>Generated podcast content from https://en.wikipedia.org/wiki/History_of_beer</description>
-      <enclosure url="https://llm-podcast-audio.s3.ap-northeast-3.amazonaws.com/7bwsmvty60v424wfuyfn6bg12te0"
-        length="15350016"
+      <enclosure url="https://llm-podcast-audio.s3.ap-northeast-3.amazonaws.com/muuw9e9wl0lkul9x6de6sx8qlije.mp3"
+        length="11693760"
         type="audio/mpeg"/>
-      <pubDate>Sat, 05 Jul 2025 08:06:27 +0000</pubDate>
-      <guid>https://llm-podcast-audio.s3.ap-northeast-3.amazonaws.com/7bwsmvty60v424wfuyfn6bg12te0</guid>
-      <dc:date>2025-07-05T08:06:27+00:00</dc:date>
+      <pubDate>Sun, 06 Jul 2025 16:07:33 +0000</pubDate>
+      <guid>https://llm-podcast-audio.s3.ap-northeast-3.amazonaws.com/muuw9e9wl0lkul9x6de6sx8qlije.mp3</guid>
+      <dc:date>2025-07-06T16:07:33+00:00</dc:date>
     </item>
     <itunes:image href="https://llm-podcast.s3.ap-northeast-3.amazonaws.com/photo/cover.png"/>
     <itunes:author>ys7i</itunes:author>

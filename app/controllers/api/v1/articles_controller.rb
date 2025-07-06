@@ -26,6 +26,7 @@ module Api
       def create
         article = Article.new(article_params)
         if article.save
+          ArticleTranscriptGenerationJob.perform_later(article.id)
           render json: {
             success: true,
             data: article

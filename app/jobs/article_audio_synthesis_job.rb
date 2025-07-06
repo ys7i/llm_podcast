@@ -33,12 +33,13 @@ class ArticleAudioSynthesisJob < ApplicationJob
       audio_data = converter.convert_to_audio(text)
 
       # 音声ファイルをアップロード
-      audio_blob = ActiveStorage::Blob.create_and_upload!(
-        io: StringIO.new(audio_data),
+      audio_blob = ActiveStorage::Blob.new(
         filename: "podcast_#{podcast.id}.mp3",
         content_type: "audio/mpeg",
-        service_name: audio_service_name
+        service_name: :audio_file
       )
+      audio_blob.key = "#{audio_blob.key}.mp3"
+      audio_blob.upload StringIO.new(audio_data)
 
       podcast.audio_file.attach(audio_blob)
       Rails.logger.info "Created audio file for podcast #{podcast.id}"
