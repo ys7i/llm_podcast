@@ -55,7 +55,7 @@ end
 
 gem "aws-sdk-s3", "~> 1.191"
 gem "googleauth", "~> 1.11"
-gem "faraday", "~> 2.9"
+gem "faraday", "~> 2.14"
 gem "google-cloud-text_to_speech", "~> 1.6"
 gem "dotenv-rails"
 gem "rexml"
